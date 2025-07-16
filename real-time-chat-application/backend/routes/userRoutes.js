@@ -16,8 +16,9 @@ router.put("/update-password", updatePassword);
 
 // ✅ GET /user/messages?receiver_id=...&is_group=...
 router.get("/messages", async (req, res) => {
-  const userId = req.user.sub; // ✅ Now matches what's set in middleware
+  const userId = req.user.sub;
   const { receiver_id, is_group } = req.query;
+  console.log("get message route is called by user with Id", userId);
 
   try {
     let query;
@@ -25,14 +26,14 @@ router.get("/messages", async (req, res) => {
     if (is_group === "true") {
       query = supabase
         .from("messages")
-        .select("*")
+        .select("*, sender:sender_id(name)") // 👈 include sender name
         .eq("receiver_id", receiver_id)
         .eq("is_group", true)
         .order("created_at", { ascending: true });
     } else {
       query = supabase
         .from("messages")
-        .select("*")
+        .select("*, sender:sender_id(name)") // 👈 include sender name
         .eq("is_group", false)
         .or(
           `and(sender_id.eq.${userId},receiver_id.eq.${receiver_id}),and(sender_id.eq.${receiver_id},receiver_id.eq.${userId})`
@@ -53,6 +54,7 @@ router.get("/messages", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch messages" });
   }
 });
+
 
 
 // ✅ POST /user/messages
