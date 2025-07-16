@@ -1,0 +1,8 @@
+Description: Build a responsive landing page for a fictional 
+product or service. Ensure it adjusts seamlessly to different screen 
+sizes using CSS media queries. 
+
+• Skills Learned: 
+o Flexbox and Grid layout 
+o Mobile-first design principles 
+o Basic forms (e.g., signup form) 

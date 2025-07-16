@@ -1,0 +1,8 @@
+Description: Create a simple portfolio website using HTML, CSS, 
+and basic JavaScript. Include sections like "About Me," "Projects," 
+and "Contact." 
+
+• Skills Learned: 
+o Basic structure with HTML 
+o Styling with CSS 
+o Adding interactivity using JavaScript

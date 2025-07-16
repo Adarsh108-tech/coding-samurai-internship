@@ -1,0 +1,30 @@
+Description: Create a basic blogging platform with a backend. 
+Users should be able to add blog posts and view them. Use 
+Node.js and Express for the backend and any database like 
+MongoDB. 
+• Skills Learned: 
+o Setting up a backend server 
+o Connecting to a database 
+o CRUD operations
+
+tech stack - 
+
+Postgress SQL , Express js , Next js , node.js , tanstack , 
+
+routes - 
+/login
+/signUp
+/addBlog
+/getAllBlogs
+/getUserIdOfBlog
+/storeProfilePic
+/getUserDeatails
+/LikeBlog:id
+/DislikeBlog:id
+/commentBlog:id
+/getUserDetails:id
+
+
+things to learn from this - Notifications on user navbar 
+
+

@@ -1,0 +1,7 @@
+• Description: Develop a to-do list web application where users can 
+add, edit, delete, and mark tasks as complete. Use JavaScript or 
+any frontend library like React. 
+• Skills Learned: 
+o DOM manipulation 
+o State management 
+o Event handling 

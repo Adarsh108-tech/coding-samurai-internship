@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #1e1e1e, #3a3a3a);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app {
+  background-color: #2c2c2c;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  animation: slideIn 0.6s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ff4d4d;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+#taskInput {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+}
+
+#addTaskBtn {
+  padding: 10px 15px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#addTaskBtn:hover {
+  background-color: #ff1a1a;
+}
+
+ul#taskList {
+  list-style-type: none;
+}
+
+li.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #3f3f3f;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.task-label, .task-edit-input {
+  flex: 1;
+  margin-left: 10px;
+  font-size: 16px;
+  color: #eee;
+}
+
+.task-edit-input {
+  background: #2c2c2c;
+  border: 1px solid #555;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+button.action-btn {
+  background: transparent;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+button.action-btn:hover {
+  color: #ff4d4d;
+}
+
+.task-done .task-label {
+  text-decoration: line-through;
+  color: #aaa;
+}

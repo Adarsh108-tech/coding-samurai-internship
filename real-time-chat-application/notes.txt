@@ -1,0 +1,308 @@
+Project 6: Real-Time Chat Application 
+• Description: Develop a real-time chat application where users can 
+join rooms and exchange messages. Use WebSocket technology 
+or libraries like Socket.IO. 
+• Skills Learned: 
+o Real-time communication with WebSocket 
+o User sessions management 
+o Scalable architecture
+
+
+
+schemas I will need - 
+
+UserSchema - 
+name 
+description 
+resume link 
+Role 
+profilePicture
+theme : ["dark or light" , "background picture address" , "Theme color"]
+groups - [groupsIds]
+contacts - [usersIds]
+
+groups - 
+name 
+description 
+GroupPicture 
+members - [membersIds]
+
+message - 
+recieverId 
+SenderId
+
+
+apis I will need for this backend - 
+auth - 
+    /login/ , /register
+
+    /setProfile/ - it will take the user , name , description , resumeLink , Role , Profile picture and update the user data
+
+    /createGroup - will create a group and will take the following variables - 
+        name 
+        description 
+        GroupPicture 
+        members - [membersIds]
+
+    /addContact - this will add a contact in user's data through the other userId and will update the usersContacts in user Data 
+
+    /CreateGroup - this will create a group , and will take this data from the creater of group - group Profile picture , Group Description , and the List of members that the user can select , then this will add a new group too all of the users group array in users data
+
+
+Tables = 
+
+users Table - 
+create table if not exists users (
+  id uuid primary key references auth.users(id) on delete cascade,
+  name text,
+  description text,
+  resume_link text,
+  role text,
+  profile_picture text,
+  theme_mode text check (theme_mode in ('light', 'dark')),
+  theme_color text,
+  background_image text,
+  created_at timestamp with time zone default timezone('utc', now())
+);
+
+
+contacts table 
+create table if not exists contacts (
+  id serial primary key,
+  user_id uuid references users(id) on delete cascade,
+  contact_id uuid references users(id) on delete cascade,
+  created_at timestamp with time zone default timezone('utc', now()),
+  unique(user_id, contact_id)
+);
+
+
+groups Table 
+create table if not exists groups (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  description text,
+  group_picture text,
+  created_by uuid references users(id) on delete set null,
+  created_at timestamp with time zone default timezone('utc', now())
+);
+
+group members - 
+create table if not exists group_members (
+  id serial primary key,
+  group_id uuid references groups(id) on delete cascade,
+  user_id uuid references users(id) on delete cascade,
+  created_at timestamp with time zone default timezone('utc', now()),
+  unique(group_id, user_id)
+);
+
+
+messages Table - 
+create table if not exists messages (
+  id uuid primary key default gen_random_uuid(),
+  sender_id uuid references users(id) on delete cascade,
+  receiver_id uuid, -- can be user or group
+  is_group boolean default false,
+  content text not null,
+  created_at timestamp with time zone default timezone('utc', now())
+);
+
+
+supabase auth hook - 
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.users (id)
+  values (new.id);
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger on_auth_user_created
+after insert on auth.users
+for each row execute procedure public.handle_new_user();
+
+
+steps to make a full stack web application 
+
+1 . create the frontend - done
+2 . create the backend - done
+3 . test the backend with postman 
+4 . integrate the backend with frontend
+5 . deploy the backend
+6 . deploy the frontend 
+
+
+
+token - 
+eyJhbGciOiJIUzI1NiIsImtpZCI6IkxXMHRBRTdqQmxRaG9rS3AiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL29ocm15bXNmdGh2a2NxaWhjb21lLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI4MGRkOGIyNy02ZTRlLTQxMzMtYjJhMS0xOGUyZjIwMjg5ZTgiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzUyNTgwNzk0LCJpYXQiOjE3NTI1NzcxOTQsImVtYWlsIjoiYWRhcnNoMTYyMjEwQGdtYWlsLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJhZGFyc2gxNjIyMTBAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZ1bGxfbmFtZSI6InlvciIsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiODBkZDhiMjctNmU0ZS00MTMzLWIyYTEtMThlMmYyMDI4OWU4In0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NTI1NzcxOTR9XSwic2Vzc2lvbl9pZCI6ImMwODIyZWRiLTVlYzItNDUzYy1hOTBiLTQyMTQzMzg3NGQ0ZCIsImlzX2Fub255bW91cyI6ZmFsc2V9.xfbhbZRIKeshSr9xPro2GqeKvgqc4M39QugcjTlADt8
+
+
+email - adarsh162210@gmail.com 
+password - yoryor
+
+
+
+
+1. Register User - working
+Endpoint: POST /auth/register
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "email": "adarsh@example.com",
+  "password": "strongpassword",
+  "fullName": "Adarsh Tiwari"
+}
+2. Login User - working
+Endpoint: POST /auth/login
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "email": "adarsh@example.com",
+  "password": "strongpassword"
+}
+✅ Response will return a session.access_token → Save it to use as Bearer Token for the next tests.
+
+👤 User Routes (Requires Authorization: Bearer <access_token>)
+3. Update Profile - done
+Endpoint: PUT /user/profile
+
+Headers: Authorization: Bearer <access_token>
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "id": "user_id",
+  "name": "Adarsh Updated",
+  "description": "Loves Node.js",
+  "resume_link": "https://adarsh.com/resume",
+  "role": "Developer",
+  "profile_picture": "https://picsum.photos/200",
+  "theme_mode": "dark",
+  "theme_color": "#4ade80",
+  "background_image": "https://picsum.photos/600"
+}
+4. Add Contact - done
+Endpoint: POST /user/add-contact
+
+Headers: Authorization: Bearer <access_token>
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "contactId": "another_user_id"
+}
+5. Update Password
+Endpoint: PUT /user/update-password
+
+Headers: Authorization: Bearer <access_token>
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "id": "user_id",
+  "password": "newpassword123"
+}
+6. Get User By ID
+Endpoint: GET /user/:id
+
+Headers: Authorization: Bearer <access_token>
+
+Example: /user/abcd-1234-xyz
+
+7. User Dashboard - done
+Endpoint: GET /user/dashboard
+
+Headers: Authorization: Bearer <access_token>
+
+👥 Group Routes (Requires Authorization)
+
+
+8. Create Group - done
+Endpoint: POST /group/create
+
+Headers: Authorization: Bearer <access_token>
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "name": "My Friends Group",
+  "description": "Private discussions",
+  "group_picture": "https://picsum.photos/300",
+  "created_by": "user_id",
+  "members": ["user_id", "another_user_id"]
+}
+
+9. Add Members to Group - working
+Endpoint: POST /group/add-members
+
+Headers: Authorization: Bearer <access_token>
+
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "group_id": "group_id_here",
+  "user_ids": ["user_id_1", "user_id_2"]
+}
+
+
+
+💬 Socket Events Testing Plan (via Postman WebSocket or browser frontend)
+10. Socket Connect
+Connect to: ws://localhost:5000 (or your hosted server)
+
+Emit Events:
+join
+
+json
+Copy
+Edit
+{
+  "event": "join",
+  "data": "user_id_here"
+}
+send-message
+
+json
+Copy
+Edit
+{
+  "event": "send-message",
+  "data": {
+    "sender_id": "user_id",
+    "receiver_id": "other_user_or_group_id",
+    "content": "Hey there!",
+    "is_group": false
+  }
+}
+join-group
+
+json
+Copy
+Edit
+{
+  "event": "join-group",
+  "data": "group_id"
+}

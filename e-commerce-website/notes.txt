@@ -1,0 +1,9 @@
+Project 5: E-Commerce Website 
+• Description: Build a functional e-commerce website with user 
+authentication, a shopping cart, and a payment gateway 
+integration. Use a full-stack framework like MERN (MongoDB, 
+Express, React, Node.js). 
+• Skills Learned: 
+o User authentication 
+o State management with Redux or Context API 
+o Payment gateway integration
