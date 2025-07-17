@@ -17,7 +17,7 @@ const io = new Server(server, {
   }
 });
 const corsOptions = {
-  origin: "http://localhost:3000", // 👈 frontend origin
+  origin: "*", // 👈 frontend origin
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // if you're using cookies (optional)
