@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 // ✅ Correct CORS config with your real frontend URL
 const corsOptions = {
-  origin: "*",
+  origin: "https://coding-samurai-internship.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
