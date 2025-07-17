@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 // ✅ Correct CORS config with your real frontend URL
 const corsOptions = {
-  origin: "https://coding-samurai-internship.vercel.app",
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -95,6 +95,8 @@ io.on("connection", (socket) => {
     }
   });
 });
+
+
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
