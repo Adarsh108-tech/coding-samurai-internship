@@ -73,23 +73,6 @@ exports.updatePassword = async (req, res) => {
 };
 
 
-exports.getUserById = async (req, res) => {
-  const { id } = req.params;
-
-  const { data, error } = await supabase
-    .from("users")
-    .select("id, name, description, resume_link, role, profile_picture, theme_mode, theme_color, background_image, created_at")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    console.error("❌ Error fetching user:", error.message);
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  res.json({ user: data });
-};
-
 
 exports.getUserDashboardData = async (req, res) => {
   try {
