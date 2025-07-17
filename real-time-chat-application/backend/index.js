@@ -10,24 +10,24 @@ const authMiddleware = require("./middelware/authMiddelware");
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Correct CORS config
+// ✅ Correct CORS config with your real frontend URL
 const corsOptions = {
-  origin: "https://welp-2-0.vercel.app", // Replace with your frontend domain
+  origin: "https://coding-samurai-internship.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
 
-// ✅ CORS middleware
+// ✅ Apply CORS middleware
 app.use(cors(corsOptions));
 
-// ✅ Handle preflight OPTIONS requests
+// ✅ Explicitly handle preflight OPTIONS requests
 app.options("*", cors(corsOptions));
 
-// ✅ Parse incoming JSON
+// ✅ Parse JSON requests
 app.use(express.json());
 
-// ✅ Routes
+// ✅ Define routes
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/user", authMiddleware, require("./routes/userRoutes"));
 app.use("/group", authMiddleware, require("./routes/groupRoutes"));
@@ -35,20 +35,22 @@ app.use("/group", authMiddleware, require("./routes/groupRoutes"));
 // ✅ Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: "https://welp-2-0.vercel.app", // Match frontend origin
+    origin: "https://coding-samurai-internship.vercel.app", // frontend origin
     methods: ["GET", "POST"],
     credentials: true,
   }
 });
 
-// User ↔ Socket map
+// User ↔ Socket mapping
 const userSocketMap = new Map(); // userId -> socket.id
 
+// ✅ Handle socket connections
 io.on("connection", (socket) => {
   console.log("🔌 New socket connected:", socket.id);
 
   socket.on("join", (userId) => {
     if (!userId) return;
+
     userSocketMap.set(userId, socket.id);
     socket.join(userId);
     console.log(`✅ User ${userId} joined personal room`);
@@ -94,7 +96,7 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ Start the server
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
