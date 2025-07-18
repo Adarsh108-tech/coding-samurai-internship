@@ -1,5 +1,5 @@
 // utils/api.js
-const BASE_URL = "http://localhost:5000"; // or your deployed backend
+const BASE_URL = "https://coding-samurai-internship-production.up.railway.app"; // or your deployed backend
 
 export const registerUser = async (formData) => {
   const res = await fetch(`${BASE_URL}/auth/register`, {

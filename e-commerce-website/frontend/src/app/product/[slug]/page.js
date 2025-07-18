@@ -25,7 +25,7 @@ export default function ProductPage() {
         return toast.error("You must be logged in to add items to cart");
       }
 
-      const res = await fetch("http://localhost:5000/user/addToCart", {
+      const res = await fetch("https://coding-samurai-internship-production.up.railway.app/user/addToCart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

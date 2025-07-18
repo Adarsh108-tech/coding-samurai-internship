@@ -14,7 +14,7 @@ export default function CartPage() {
         return toast.error("You must be logged in to clear your cart.");
       }
 
-      const res = await fetch("http://localhost:5000/user/clearCart", {
+      const res = await fetch("https://coding-samurai-internship-production.up.railway.app/user/clearCart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

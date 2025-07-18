@@ -53,7 +53,7 @@ export default function DashboardPage() {
           return;
         }
 
-        const res = await fetch("http://localhost:5000/user/getUserData", {
+        const res = await fetch("https://coding-samurai-internship-production.up.railway.app/user/getUserData", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
